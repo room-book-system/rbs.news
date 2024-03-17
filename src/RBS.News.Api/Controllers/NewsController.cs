@@ -1,8 +1,12 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using RBS.News.Api.Abstractions;
+using RBS.News.Api.Models.News;
+using RBS.News.Application.News.Commands.CreateNews;
 
 namespace RBS.News.Api.Controllers;
 
-public class NewsController : ControllerBase
+public class NewsController(ISender sender) : ApiController(sender)
 {
     public async Task<IActionResult> GetNewsById(int id)
     {
@@ -18,11 +22,13 @@ public class NewsController : ControllerBase
         return Ok();
     }
     
-    public async Task<IActionResult> CreateNews()
+    public async Task<IActionResult> CreateNews(CreateNewsRequest request)
     {
-        await Task.FromResult(1);
-
-        return Ok();
+        var command = new CreateNewsCommand(CreateNewsRequest.Map(request));
+        
+        var result = await Sender.Send(command);
+        
+        return result.IsSuccess ? Ok() : BadRequest(result.Error);
     }
     
     public async Task<IActionResult> UpdateNews()

@@ -1,8 +1,8 @@
 using MongoDB.Driver;
-using RBS.News.Domain.Operations;
+using RBS.News.Domain.Stores;
 using RBS.News.Infrastructure.Persistence.Configuration;
 
-namespace RBS.News.Application.Services;
+namespace RBS.News.Infrastructure.Persistence.Stores;
 
 public class NewsStore : INewsStore
 {
@@ -15,28 +15,34 @@ public class NewsStore : INewsStore
         _news = database.GetCollection<Domain.Entities.News>(settings.NewsCollectionName);
     }
     
-    public async Task<IEnumerable<Domain.Entities.News>> GetNews()
+    public async Task<IEnumerable<Domain.Entities.News>> GetNewsAsync()
     {
         return await _news.Find(news => true).ToListAsync();
     }
 
-    public async Task<Domain.Entities.News> GetNews(string id)
+    public async Task<Domain.Entities.News> GetNewsAsync(string id)
     {
         return await _news.Find(book => book.Id == id).FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<Domain.Entities.News>> AddNews(IEnumerable<Domain.Entities.News> news)
+    public async Task<IEnumerable<Domain.Entities.News>> AddNewsAsync(IEnumerable<Domain.Entities.News> news)
     {
         await _news.InsertManyAsync(news);
         return news;    
     }
 
-    public async Task UpdateNews(string id, Domain.Entities.News news)
+    public async Task<Domain.Entities.News> AddNewsSingleAsync(Domain.Entities.News news)
+    {
+        await _news.InsertOneAsync(news);
+        return news;
+    }
+
+    public async Task UpdateNewsAsync(string id, Domain.Entities.News news)
     {
         await _news.ReplaceOneAsync(book => book.Id == id, news);
     }
 
-    public async Task DeleteNews(string id)
+    public async Task DeleteNewsAsync(string id)
     {
         await _news.DeleteOneAsync(book => book.Id == id);
     }
