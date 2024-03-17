@@ -3,6 +3,7 @@ using RBS.News.Application.Abstractions.Messaging;
 using RBS.News.Domain.Events.News;
 using RBS.News.Domain.Shared;
 using RBS.News.Domain.Stores;
+using RBS.News.Infrastructure.Events;
 
 namespace RBS.News.Application.News.Commands.CreateNews;
 

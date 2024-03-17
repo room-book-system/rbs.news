@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using RBS.News.Application.Abstractions.Events;
 using RBS.News.Domain.Events.Abstractions;
 
 namespace RBS.News.Infrastructure.Events;

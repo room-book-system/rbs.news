@@ -1,6 +1,6 @@
 using RBS.News.Domain.Events.Abstractions;
 
-namespace RBS.News.Application.Abstractions.Events;
+namespace RBS.News.Infrastructure.Events;
 
 public interface IEventDispatcher
 {
