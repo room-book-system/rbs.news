@@ -20,7 +20,15 @@ internal sealed class CreateNewsCommandHandler : ICommandHandler<CreateNewsComma
     
     public async Task<Result> Handle(CreateNewsCommand request, CancellationToken cancellationToken)
     {
-        var news = new Domain.Entities.News();
+        var news = new Domain.Entities.News()
+        {
+            Title = request.News.Title,
+            ShortDescription = request.News.ShortDescription,
+            CreatedAt = DateTime.UtcNow,
+            EditedAt = DateTime.UtcNow,
+            Html = request.News.Html,
+            ImageSrc = request.News.ImageSrc
+        };
         
         await _newsStore.AddNewsSingleAsync(news);
 

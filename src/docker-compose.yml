@@ -1,0 +1,15 @@
+﻿services:
+#  rbs.news.api:
+#    image: rbs.news.api
+#    build:
+#      context: .
+#      dockerfile: RBS.News.Api/Dockerfile
+  mongo-db:
+    image: mongo:latest
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
