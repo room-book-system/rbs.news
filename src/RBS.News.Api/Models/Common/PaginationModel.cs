@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace RBS.News.Api.Models.Common;
 
 public class PaginationModel

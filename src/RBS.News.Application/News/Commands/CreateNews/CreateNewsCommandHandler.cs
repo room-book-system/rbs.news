@@ -7,17 +7,9 @@ using RBS.News.Infrastructure.Events;
 
 namespace RBS.News.Application.News.Commands.CreateNews;
 
-internal sealed class CreateNewsCommandHandler : ICommandHandler<CreateNewsCommand>
+internal sealed class CreateNewsCommandHandler(INewsStore newsStore, IEventDispatcher dispatcher)
+    : ICommandHandler<CreateNewsCommand>
 {
-    private readonly INewsStore _newsStore;
-    private readonly IEventDispatcher _dispatcher;
-
-    public CreateNewsCommandHandler(INewsStore newsStore, IEventDispatcher dispatcher)
-    {
-        _newsStore = newsStore;
-        _dispatcher = dispatcher;
-    }
-    
     public async Task<Result> Handle(CreateNewsCommand request, CancellationToken cancellationToken)
     {
         var news = new Domain.Entities.News()
@@ -30,9 +22,9 @@ internal sealed class CreateNewsCommandHandler : ICommandHandler<CreateNewsComma
             ImageSrc = request.News.ImageSrc
         };
         
-        await _newsStore.AddNewsSingleAsync(news);
+        await newsStore.AddNewsSingleAsync(news);
 
-        await _dispatcher.DispatchAsync(NewsCreatedEvent.Create(news));
+        await dispatcher.DispatchAsync(NewsCreatedEvent.Create(news));
         
         return Result.Success();
     }

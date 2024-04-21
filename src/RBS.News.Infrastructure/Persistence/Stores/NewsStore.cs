@@ -34,6 +34,7 @@ public class NewsStore : INewsStore
     public async Task<IEnumerable<Domain.Entities.News>> AddNewsAsync(IEnumerable<Domain.Entities.News> news)
     {
         await _news.InsertManyAsync(news);
+        
         return news;    
     }
 

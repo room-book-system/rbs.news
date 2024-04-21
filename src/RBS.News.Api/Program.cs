@@ -1,4 +1,7 @@
 using Microsoft.OpenApi.Models;
+using RBS.News.Application.News.Events;
+using RBS.News.Domain.Events.Abstractions;
+using RBS.News.Domain.Events.News;
 using RBS.News.Domain.Stores;
 using RBS.News.Infrastructure.Events;
 using Serilog;
@@ -11,12 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(RBS.News.Application.AssemblyReference.Assembly));
 
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-builder.Services.AddScoped<INewsStore, NewsStore>();
-builder.Services.AddScoped<IEventDispatcher, EventDispatcher>();
+ConfigureServices(builder);
 
 builder.Services.AddSwaggerGen(opt =>
 {
@@ -89,3 +92,13 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+void ConfigureServices(WebApplicationBuilder webApplicationBuilder)
+{
+    webApplicationBuilder.Services.AddScoped<INewsStore, NewsStore>();
+    webApplicationBuilder.Services.AddScoped<IEventDispatcher, EventDispatcher>();
+    webApplicationBuilder.Services.AddScoped<IDomainEventHandler<NewsCreatedEvent>, NewsCreatedEventHandler>();
+    webApplicationBuilder.Services.AddScoped<IDomainEventHandler<NewsUpdatedEvent>, NewsUpdatedEventHandler>();
+    webApplicationBuilder.Services.AddScoped<IDomainEventHandler<NewsDeletedEvent>, NewsDeletedEventHandler>();
+}

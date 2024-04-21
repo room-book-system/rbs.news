@@ -3,12 +3,12 @@ using RBS.News.Domain.Events.News;
 
 namespace RBS.News.Application.News.Events;
 
-public class NewsCreatedEventHandler : INewsCreatedEventHandler
+public class NewsDeletedEventHandler : INewsDeletedEventHandler
 {
-    public Task HandleAsync(NewsCreatedEvent domainEvent)
+    public Task HandleAsync(NewsDeletedEvent domainEvent)
     {
         // TODO: Implement the domain event handler
-
+        
         return Task.CompletedTask;
     }
 }

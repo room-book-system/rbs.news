@@ -3,9 +3,9 @@ using RBS.News.Domain.Events.News;
 
 namespace RBS.News.Application.News.Events;
 
-public class NewsCreatedEventHandler : INewsCreatedEventHandler
+public class NewsUpdatedEventHandler : INewsUpdatedEventHandler
 {
-    public Task HandleAsync(NewsCreatedEvent domainEvent)
+    public Task HandleAsync(NewsUpdatedEvent domainEvent)
     {
         // TODO: Implement the domain event handler
 
